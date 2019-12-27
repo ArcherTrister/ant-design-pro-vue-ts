@@ -1,0 +1,104 @@
+<template>
+  <a-modal
+    title="操作"
+    :width="600"
+    :visible="visible"
+    :confirm-loading="confirmLoading"
+    @ok="handleOk"
+    @cancel="handleCancel"
+  >
+    <a-spin :spinning="confirmLoading">
+      <a-form :form="form">
+        <a-form-item label="父级ID">
+          <a-input v-decorator="['parentId', {}]" disabled />
+        </a-form-item>
+
+        <a-form-item label="机构名称">
+          <a-input v-decorator="['orgName', {}]" />
+        </a-form-item>
+      </a-form>
+    </a-spin>
+  </a-modal>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component({
+  name: 'OrgModal',
+  components: {}
+})
+export default class OrgModal extends Vue {
+  //data
+
+  private labelCol: object = {
+    xs: { span: 24 },
+    sm: { span: 5 }
+  }
+  private wrapperCol: object = {
+    xs: { span: 24 },
+    sm: { span: 16 }
+  }
+  private visible: boolean = false
+  private confirmLoading: boolean = false
+  private mdl: object = {}
+  private form: any
+
+  constructor() {
+    super()
+  }
+
+  beforeCreate() {
+    this.form = this.$form.createForm(this)
+    console.log('form::', this.form)
+  }
+  created() {}
+
+  //methods
+  add(id: any) {
+    this.edit({ parentId: id })
+  }
+  edit(record: any) {
+    this.mdl = Object.assign({}, record)
+    this.visible = true
+    this.$nextTick(() => {
+      this.form.setFieldsValue({ ...record })
+    })
+  }
+  close() {
+    this.$emit('close')
+    this.visible = false
+  }
+  handleOk() {
+    const _this = this
+    // 触发表单验证
+    this.form.validateFields((err: any, values: any) => {
+      // 验证表单没错误
+      if (!err) {
+        console.log('form values', values)
+
+        _this.confirmLoading = true
+        // 模拟后端请求 2000 毫秒延迟
+        new Promise(resolve => {
+          setTimeout(() => resolve(), 2000)
+        })
+          .then(() => {
+            // Do something
+            _this.$message.success('保存成功')
+            _this.$emit('ok')
+          })
+          .catch(() => {
+            // Do something
+          })
+          .finally(() => {
+            _this.confirmLoading = false
+            _this.close()
+          })
+      }
+    })
+  }
+  handleCancel() {
+    this.close()
+  }
+}
+</script>
