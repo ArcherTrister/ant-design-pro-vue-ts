@@ -203,9 +203,9 @@
             <span slot="message">
               配置栏只在开发环境用于预览，生产环境不会展现，请手动修改配置文件
               <a
-                href="https://github.com/ArcherTrister/ant-design-pro-vue-ts/blob/master/src/config/defaultSettings.js"
+                href="https://github.com/ArcherTrister/ant-design-pro-vue-ts/blob/master/src/configs/defaultSettings.ts"
                 target="_blank"
-                >src/config/defaultSettings.js</a
+                >src/configs/defaultSettings.ts</a
               >
             </span>
           </a-alert>
@@ -223,7 +223,7 @@
 import { Component } from 'vue-property-decorator'
 import { DescriptionList } from '@/components'
 import SettingItem from './SettingItem.vue'
-import config from '@/config/defaultSettings'
+import config from '@/configs/defaultSettings'
 import { colorList, updateColorWeak, updateTheme } from './settingConfig'
 import MixinDevice from '@/shared/mixins/mixin-device'
 
