@@ -1,5 +1,5 @@
 import * as loginService from '@/api/login'
-import { BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
+import { BasicLayout, BlankLayout, PageView, RouteView } from '@/layouts'
 import { CustomRouteConfig } from '@/interfaces/router-interface'
 
 // 前端路由表
@@ -7,8 +7,8 @@ const constantRouterComponents: any = {
   // 基础页面 layout 必须引入
   BasicLayout: BasicLayout,
   BlankLayout: BlankLayout,
-  RouteView: RouteView,
   PageView: PageView,
+  RouteView: RouteView,
   '403': () => import(/* webpackChunkName: "error" */ '@/views/exception/403.vue'),
   '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404.vue'),
   '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500.vue'),
@@ -130,9 +130,9 @@ export const generator = (routerMap: any[], parent?: any) => {
       // 路由名称，建议唯一
       name: item.name || item.key || '',
       // 该路由对应页面的 组件 :方案1
-      component: constantRouterComponents[item.component || item.key],
+      // component: constantRouterComponents[item.component || item.key],
       // 该路由对应页面的 组件 :方案2 (动态加载)
-      // component: constantRouterComponents[item.component || item.key] || () => import(`@/views/${item.component}`),
+      component: constantRouterComponents[item.component || item.key] || (() => import(`@/views/${item.component}`)),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
